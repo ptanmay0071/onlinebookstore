@@ -1,10 +1,10 @@
 version: '3'
 services:
-  onlinebookstoreDB:
+  onlinebookstoredb:
     build:
       context: ./dockerfiles/db
-    image: onlinebookstoreDB
-    container_name: onlinebookstoreDB
+    image: onlinebookstoredb
+    container_name: onlinebookstoredb
     ports:
       - "3306:3306"
     volumes:
@@ -29,7 +29,7 @@ services:
     container_name: web-nginx
     ports:
       - "80:80"
-      
+
 volumes:
   dbdata: {}
   appdata: {}
