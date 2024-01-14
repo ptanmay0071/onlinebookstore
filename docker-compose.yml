@@ -1,40 +1,35 @@
-version: '1.10'
-
+version: '3'
 services:
   onlinebookstoreDB:
-    build: 
+    build:
       context: ./dockerfiles/db
-    image: ptanmay0071/onlinebookstoreDB
+    image: onlinebookstoreDB
     container_name: onlinebookstoreDB
     ports:
       - "3306:3306"
     volumes:
-      - dbDATA:/var/lib/mysql
+      - dbdata:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=Tanmay
-  
-  onlinebookstoreApp:
-    build: 
+
+  onlinebookstoreapp:
+    build:
       context: .
-    image: ptanmay0071/onlinebookstoreApp
-    container_name: onlinebookstoreApp
+    image: onlinebookstoreapp
+    container_name: onlinebookstoreapp
     ports:
       - "8080:8080"
-    volumes:
-      - appDATA:/usr/local/tomcat/webapps
-    
-  onlinebookstoreWebNginx:
-    build: 
+    volumes: 
+      - appdata:/usr/local/tomcat/webapps
+
+  vproweb:
+    build:
       context: ./dockerfiles/web-nginx
-    image: ptanmay0071/onlinebookstoreWebNginx
-    container_name: onlinebookstoreWebNginx
+    image: web-nginx
+    container_name: web-nginx
     ports:
       - "80:80"
-
+      
 volumes:
-  - dbDATA: {} 
-  - appDATA: {}  
-
-    
-
-
+  dbdata: {}
+  appdata: {}
