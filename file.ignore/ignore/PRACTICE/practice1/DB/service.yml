@@ -1,0 +1,12 @@
+apiVersion:
+kind: Service
+metadata:
+  nmae: #name given in application.property file
+spec:
+  ports:
+    Port: 3306
+    targetPort: 3306
+    Protocol: TCP
+  selector: 
+    pod: DB
+  type: ClusterIP

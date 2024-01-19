@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bookpod
+  labels:
+    name: bookpod
+# namespace: app
+
+spec:
+# afinity rules for run my container on this node
+  containers:
+    - name: book
+      image: ptanmay0071/book
+      ports: 
+        - name: bookport
+          containerPort: 8080
+           
+    

@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploymentForDB
+
+spec:
+  Replicas: 3
+  selector:
+    matchLabels:
+      pod: DB
+  template: 
+    metadata:
+      lebels:
+        pod: DB
+    spec: 
+      containers:
+        - name: dbcontainer
+          image: ptanmay0071/book
+          ports:
+            - name: dbport
+              containerPort: 3306
+          volumeMount:
+              mountPath: /var/lib/mysql
+              name: dbVolume
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secreteKeyRef:
+                  - name: secreteForDB
+                    key: pass
+      nodeSelector:
+        zone: us-east-2b
+        
+      Volumes:
+        - name: dbVolume
+          awsElastickBlockStorage:
+            volumeID:
+
+      initContainer:
+        - name: busybox
+          image: busybox:latest
+          args: ["rm", "-rf", "/var/lib/mysql/lost+found" ]
+          volumeMounts:
+          - name: DBvolume
+            mountPath: /var/lib/mysql
+
+    

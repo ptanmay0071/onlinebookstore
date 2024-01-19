@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bookpod
+  labels:
+    podname: book
+#  namespace: tanmay
+  
+spec:
+  containers: 
+    - name: book
+      image: ptanmay0071/book
+      ports:
+        - name: bookport
+          containerPort: 8090
+      volume:
+        mountPath: /var/lib/xyz
+        name: /abc
+
+volumes:
+  - name: /abc
+    hostPath: /pathonhomedir
+    type: directory
+
+
+
+        

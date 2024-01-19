@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: bookappTomcat
+  labels: 
+    app: booktomcat
+spec:
+  Replicas: 3
+  selector:
+    matchLabels: 
+      app: bookapp
+  template:
+    metadata: 
+      label:
+        app: bookapp
+    spec:
+      containers:
+        - name: bookappcontainer
+          image: ptanmay0071/bookapp
+          ports:
+            - name: bookappport
+              containerPort: 8080
+      initContainer:                  # we need to create 1st db container
+        - name: init-dbcontainer         
+          image: busybox
+          command: ['sh', '-c', 'until nslookup vprodb; do echo waiting for mydb; sleep 2; done;']
+          # this command for check db container is created or not 
+    

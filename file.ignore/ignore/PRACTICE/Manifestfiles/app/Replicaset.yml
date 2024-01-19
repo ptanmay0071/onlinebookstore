@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+
+
+spec:
+  Replicas: 3
+  selector:
+    - matchLabels: 
+        name: bookpod1
+
+  template:
+    metadata:
+      labels:
+        - name: bookpod1  # it must similar to name mentioned in matchlables of replicas
+
+    spec:    
+      containers:
+        - name: bookcontainer
+          image: ptanmay0071/pod
+          ports:
+            - name: bookport
+              containerPort: 80
+         

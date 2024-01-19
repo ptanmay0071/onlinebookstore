@@ -1,0 +1,22 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploymentBook
+
+spec:
+  Replicas: 3
+  selector:
+    matchlabels:             # match label with pod label
+      pod: book
+
+  tempate:
+    metadata:
+      labels:
+        - pod: book          # pod label
+    - containers:
+      - name: bookcontainer
+        image: ptanmay0071/book
+      ports:
+        name: bookport
+        port: 8080

@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: dbdeployment
+  labels:
+    app: bookDB
+
+spec: 
+  Replicas: 3
+  selector:
+    matchLabels:
+      podname: DBpod
+  template:
+    metadata:
+      labels:
+        podname: DBpod
+    spec:
+      containers:
+      - name: DBcontainer
+        image: ptanmay0071/DBbook
+        VolumeMounts:
+          mountPath: /var/lib/mysql
+          name: DBvolume 
+        ports:
+        - name: dbpodport
+          containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_USER
+          valueFrom:
+            secreteKeyRef:
+            - name: dbsecrete    # name of secrete file in metadata
+            key: USER 
+
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secreteKeyRef:
+            - name: dbsecrete    # name of secrete file in metadata
+            key: PASS
+
+      nodeSelector: 
+        zone: us-east-2a  # give label to one node on which EBS volume is created
+
+      volumes:
+      - name: DBvolume
+        ElasticBlockStorage:
+          volumeID:
+          fsType: ext4
+
+      initContainers:  #we have run container before start main container because there is some data in volume it will throw error
+        - name: busybox
+          image: busybox:latest
+          args: ["rm", "-rf", "/var/lib/mysql/lost+found" ]
+          volumeMounts:
+          - name: DBvolume
+            mountPath: /var/lib/mysql
+
+      
+
+

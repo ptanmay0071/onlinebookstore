@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: dbbookdeployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      pod: dbbook
+  template:
+    metadata:
+      labels:
+        pod: dbbook
+    spec:
+      containers:
+      - name: dbbookkk
+        image: ptanmay0071/dbbook
+        ports:
+          - name: dbport
+            containerPort: 3306
+        volume:
+        - mountPath: /var/lib/mysql
+          name: /dbbackup
+    volumes:
+    - name: /dbbackup
+      path: /home/
+      type: DirectoryOrCreate
+
+      

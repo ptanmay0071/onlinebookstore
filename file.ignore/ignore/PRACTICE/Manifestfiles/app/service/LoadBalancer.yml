@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: service
+metadata:
+  name: loadbalancerBook
+
+spec:
+  - ports:
+    port: 80   # internal
+    targetPorts: 8080
+    # targetPort: bookport  # if we want to map wwith port name ..see portname of bookpod
+    protocol: TCP
+  selector:
+    name: bookpod
+  type: LoadBalancer

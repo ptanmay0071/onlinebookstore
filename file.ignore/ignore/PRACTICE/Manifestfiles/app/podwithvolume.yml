@@ -1,0 +1,23 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bookpod
+
+spec:
+  containers:
+    - name: book
+      image: ptanmay0071/book
+      ports:
+        - name: bookport
+          containerPort: 8080
+      volume:
+        moutPath: /usr/local/tomcat
+        name: dataBook
+
+Volume:
+  - name: dataBook
+  # Dir ectory loc on host machine
+    hostPath:
+      path: /data
+      type: DirectoryOrCreate

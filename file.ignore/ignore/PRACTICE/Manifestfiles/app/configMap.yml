@@ -1,0 +1,21 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metada:
+  name: bookvar
+
+data:
+  IMAGE: nginx
+  
+
+---
+#how to use in pod
+
+spec:
+  containers:
+  - name: abcd
+    image: IMAGEPOD
+    env: 
+    - name: bookvar
+      Key: IMAGE
+      

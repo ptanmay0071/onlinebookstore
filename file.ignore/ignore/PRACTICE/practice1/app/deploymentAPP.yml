@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appdeployment
+
+spec:
+  Replicas: 3
+  selector:
+    matchLabels:
+      app: bookpod
+  template:
+    metadata:
+      labels:
+        app: bookpod
+    spec:
+      containers:
+        - name: bookcontainer
+          image: ptanmay0071/book
+          ports:
+            - name: bookport
+              containerPort: 8080
+          volumeMount: 
+            mountPath: /logs
+            name: bookVolume
+
+      Volumes:
+        - name: bookVolume
+          awsElasticBlockStorage:
+            - volumeID:
+
+      initContainers: 
+        - name: init-dbcontainer         
+          image: busybox
+          command: ['sh', '-c', 'until nslookup vprodb; do echo waiting for mydb; sleep 2; done;']
+          # this command for check db container is created or not 
+               

@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: Service
+metadat: 
+    label: booksevice
+spec:
+    ports:
+    - port: 8080
+      targetPort: 8080 #or we can write port name of bookpod
+      # targetPort: bookport  # if we want to map wwith port name ..see portname of bookpod
+      protocol: TCP
+    selector:
+      app: bookpod
+    type: ClusterIP
