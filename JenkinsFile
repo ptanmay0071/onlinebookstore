@@ -1,0 +1,36 @@
+pipeline {
+	agent any
+	tools {
+	    maven "MAVEN3"
+	    jdk "OracleJDK8"
+	}
+
+	stages {
+	    stage('Fetch code') {
+            steps {
+               git branch: 'docker', url: 'https://github.com/ptanmay0071/onlinebookstore.git'
+            }
+
+	    }
+
+	    stage('Build'){
+	        steps{
+	           sh 'mvn install'
+	        }
+
+	        post {
+	           success {
+	              echo 'Now Archiving it...'
+	              archiveArtifacts artifacts: '**/target/*.war'
+	           }
+   
+	        }
+	    }
+
+	    stage('UNIT TEST') {
+            steps{
+                sh 'mvn test'
+            }
+        }
+	}
+}
